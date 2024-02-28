@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import { Eta } from 'eta'
+import YAML from 'yaml'
 
 /**
  * The main function for the action.
@@ -16,10 +17,12 @@ export async function run(): Promise<void> {
 
     console.log('env', JSON.stringify(process.env, undefined, 2))
 
+    const parsedVariables = YAML.parse(variables)
+
     console.log('variables', variables)
 
     const eta = new Eta()
-    eta.renderString(template, { name: 'Ben' })
+    eta.renderString(template, { ...parsedVariables })
 
     core.setOutput('text', new Date().toTimeString())
   } catch (error) {

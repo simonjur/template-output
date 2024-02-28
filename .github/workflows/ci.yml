@@ -58,7 +58,7 @@ jobs:
         uses: ./
         with:
           template: |
-            hi this is <%= what %>
+            hi this is <%= it.what %>
           variables: |
             what: 'a test'
 
