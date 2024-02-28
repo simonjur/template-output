@@ -12,7 +12,7 @@ export async function run(): Promise<void> {
       required: false
     })
 
-    core.debug(`Template: ${template}`)
+    console.log(`Template: ${template}`)
 
     console.log('env', JSON.stringify(process.env, undefined, 2))
 

@@ -2764,7 +2764,7 @@ async function run() {
         const variables = core.getInput('variables', {
             required: false
         });
-        core.debug(`Template: ${template}`);
+        console.log(`Template: ${template}`);
         console.log('env', JSON.stringify(process.env, undefined, 2));
         console.log('variables', variables);
         const eta = new eta_1.Eta();

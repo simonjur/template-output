@@ -14,7 +14,7 @@ inputs:
     required: true
   variables:
     description: 'Variables to substitute in the template'
-    required: true
+    required: false
 
 # Define your outputs here.
 outputs:
