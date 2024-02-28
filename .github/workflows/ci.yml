@@ -2,6 +2,8 @@ name: Continuous Integration
 
 on:
   pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -58,7 +60,7 @@ jobs:
           template: |
             hi this is <%= what %>
           variables:
-            what: 'a test'
+            - what: 'a test'
 
       - name: Print Output
         id: output
