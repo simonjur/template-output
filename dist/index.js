@@ -2761,7 +2761,7 @@ const eta_1 = __nccwpck_require__(469);
 async function run() {
     try {
         const template = core.getInput('template', { required: true });
-        const variables = core.getMultilineInput('variables', {
+        const variables = core.getInput('variables', {
             required: false
         });
         core.debug(`Template: ${template}`);
