@@ -19,12 +19,12 @@ export async function run(): Promise<void> {
 
     const parsedVariables = YAML.parse(variables)
 
-    console.log('variables', variables)
+    console.log('variables', parsedVariables)
 
     const eta = new Eta()
-    eta.renderString(template, { ...parsedVariables })
+    const renderedTemplate = eta.renderString(template, { ...parsedVariables })
 
-    core.setOutput('text', new Date().toTimeString())
+    core.setOutput('text', renderedTemplate)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
