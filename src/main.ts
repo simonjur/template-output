@@ -14,6 +14,8 @@ export async function run(): Promise<void> {
 
     core.debug(`Template: ${template}`)
 
+    console.log('env', JSON.stringify(process.env, undefined, 2))
+
     console.log('variables', variables)
 
     const eta = new Eta()
