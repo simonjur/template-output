@@ -59,8 +59,9 @@ jobs:
         with:
           template: |
             hi this is <%= what %>
-          variables:
-            - what: 'a test'
+          xxx: zzz
+          variables: |
+            what: 'a test'
 
       - name: Print Output
         id: output
