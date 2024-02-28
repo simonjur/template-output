@@ -57,7 +57,10 @@ jobs:
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          template: |
+            hi this is <%= what %>
+          variables:
+            what: 'a test'
 
       - name: Print Output
         id: output

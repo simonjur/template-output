@@ -9,15 +9,17 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  template:
+    description: 'Template string or path to template file'
     required: true
-    default: '1000'
+  variables:
+    description: 'Variables to substitute in the template'
+    required: true
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  text:
+    description: 'Rendered template string'
 
 runs:
   using: node20
