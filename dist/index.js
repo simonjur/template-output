@@ -10235,7 +10235,7 @@ var import_dotenv = __toESM(require_main());
 async function run() {
   try {
     const template = core.getInput("template", { required: true });
-    const varName = core.getInput("var_name", { required: true }) || "it";
+    const varName = core.getInput("var_name", { required: false }) || "it";
     const variables = core.getInput("variables", {
       required: false
     });
