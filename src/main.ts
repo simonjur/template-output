@@ -10,7 +10,7 @@ import dotenv from 'dotenv';
 export async function run(): Promise<void> {
   try {
     const template = core.getInput('template', { required: true });
-    const varName = core.getInput('var_name', { required: true }) || 'it';
+    const varName = core.getInput('var_name', { required: false }) || 'it';
     const variables = core.getInput('variables', {
       required: false
     });
