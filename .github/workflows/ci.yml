@@ -44,7 +44,7 @@ jobs:
         id: npm-ci-test
         run: npm run ci-test
 
-  test-action:
+  test-action-file:
     name: GitHub Actions Test
     runs-on: ubuntu-latest
 
@@ -53,7 +53,28 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
+      - name: Test Local Action - render template from file
+        id: test-action
+        uses: ./
+        with:
+          template: examples/simple.eta
+          variables: |
+            name: 'John'
+
+      - name: Print Output
+        id: output
+        run: echo "${{ steps.test-action.outputs.text }}"
+
+  test-action-string:
+    name: GitHub Actions Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action - render string
         id: test-action
         uses: ./
         with:
