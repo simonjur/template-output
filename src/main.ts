@@ -1,5 +1,7 @@
-import * as core from '@actions/core'
-import { wait } from './wait'
+import * as core from '@actions/core';
+import { Eta } from 'eta';
+import YAML from 'yaml';
+import dotenv from 'dotenv';
 
 /**
  * The main function for the action.
@@ -7,20 +9,55 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    const template = core.getInput('template', { required: true });
+    const varName = core.getInput('var_name', { required: false }) || 'it';
+    const variables = core.getInput('variables', {
+      required: false
+    });
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    core.debug(`Template string: ${template}`);
+    core.debug(`Variables prefix in template: ${varName}`);
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    let parsedVariables: { [key: string]: unknown } | undefined;
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    if (variables.length > 0) {
+      try {
+        parsedVariables = JSON.parse(variables);
+        console.debug('Variables parsed as JSON');
+      } catch {
+        // If the JSON parse fails, try to parse as YAML
+      }
+
+      if (typeof parsedVariables !== 'object') {
+        try {
+          parsedVariables = YAML.parse(variables);
+          console.debug('Variables parsed as YAML');
+        } catch {
+          // If the YAML parse fails, try parse detoenv
+        }
+      }
+
+      if (typeof parsedVariables !== 'object') {
+        try {
+          parsedVariables = dotenv.parse(Buffer.from(variables, 'utf8'));
+          console.debug('Variables parsed as dotenv');
+        } catch {
+          // If the dotenv parse fails, log an error
+        }
+      }
+
+      if (typeof parsedVariables !== 'object') {
+        console.log('Unable ot parse variables as JSON or YAML');
+      }
+
+      console.log('variables', parsedVariables);
+    }
+    const eta = new Eta({ varName });
+    const renderedTemplate = eta.renderString(template, { ...parsedVariables });
+
+    core.setOutput('text', renderedTemplate);
   } catch (error) {
     // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+    if (error instanceof Error) core.setFailed(error.message);
   }
 }
